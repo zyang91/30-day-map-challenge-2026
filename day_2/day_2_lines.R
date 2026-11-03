@@ -21,7 +21,16 @@ library(lubridate)
 
 sf_use_s2(FALSE)
 
+export_dir <- list.files("data", pattern = "^hht-export-", full.names = TRUE) |>
+  sort() |>
+  tail(1)
+cache_dir <- file.path("data", "basemap")
+out_file  <- file.path("day_2", "day_2_lines.png")
+dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 
+the_day <- "2026-10-02"
+crs_atl <- 32616 # UTM zone 16N, metres
+m_mile  <- 1609.344
 
 font_add_google("Libre Franklin", "franklin")
 font_add_google("Libre Franklin", "franklin_bold", regular.wt = 700)
@@ -236,10 +245,10 @@ note <- function(k, body, dx, dy, hjust = 0, curvature = 0.2) {
 }
 
 notes <- bind_rows(
-  note("emory", "<b>1 Emory University</b><br>An hour walking the campus", dx = -600, dy = 2900,
+  note("emory", "<b>1 Emory University</b><br>An hour walking the campus", dx = -200, dy = -2700,
        hjust = 0.5, curvature = 0),
-  note("coke", "<b>2 World of Coca-Cola</b><br>An hour and a half inside", dx = 3300, dy = 1300,
-       curvature = -0.2),
+  note("coke", "<b>2 World of Coca-Cola</b><br>An hour and a half inside", dx = -1500, dy = 600,
+       hjust = 1, curvature = 0.2),
   note("arena", "<b>3 State Farm Arena</b><br>A 40-minute walk, then<br>MARTA back north",
        dx = -1900, dy = -700, hjust = 1, curvature = -0.2),
   note("battery", "<b>4 The Battery Atlanta</b><br>A stroll, then dinner<br>next door",
